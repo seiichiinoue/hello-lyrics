@@ -10,8 +10,14 @@ Install dependencies:
 poetry install
 ```
 
-convert data:
+Convert data:
 
 ```sh
 python convert_data.py
+```
+
+Visualize:
+
+```sh
+tensorboard --logdir log_dir
 ```
