@@ -13,11 +13,11 @@ poetry install
 Convert data:
 
 ```sh
-python convert_data.py
+poetry run python convert_data.py
 ```
 
 Visualize:
 
 ```sh
-tensorboard --logdir log_dir
+poetry run tensorboard --logdir log_dir 
 ```
