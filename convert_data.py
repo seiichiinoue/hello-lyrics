@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
@@ -8,7 +9,7 @@ model = SentenceTransformer("pkshatech/simcse-ja-bert-base-clcmlp")
 
 def split_lyrics(data: pd.DataFrame) -> pd.DataFrame:
     lyrics_split = []
-    for i in range(len()):
+    for i in range(len(data)):
         lyrics_split.append(data["lyrics"][i].split())
     data["lyrics_split"] = lyrics_split
     return data
@@ -33,10 +34,17 @@ def convert(
     if split:
         data = split_lyrics(data)
         tar_col = "lyrics_split"
+    # encode
     sentences = sum(data[tar_col].values.tolist(), [])
     indices = np.cumsum([len(tar) for tar in data[tar_col].values])
-    embeddings = model.encode(sentences)
+    embeddings = model.encode(sentences, show_progress_bar=True)
     embeddings = np.split(embeddings, indices[:-1])
+    # mkdir
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
+    if not os.path.exists(os.path.join(output_path, 'embeddings')):
+        os.mkdir(os.path.join(output_path, 'embeddings'))
+    # write
     with open(f"{output_path}/embeddings/feature_vecs.tsv", "w") as f1, open(
         f"{output_path}/embeddings/metadata.tsv", "w"
     ) as f2:
