@@ -1,4 +1,5 @@
 data/
-log_dir/
+sample/
+log_dir/embeddings/
 poetry.lock
 *.ipynb
